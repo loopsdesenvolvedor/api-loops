@@ -15,30 +15,21 @@ model User {
   avatar    String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  Post      Post[]
-}
-
-model Post {
-  id          String   @id @default(uuid())
-  title       String
-  description String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  User        User     @relation(fields: [userId], references: [id])
-  userId      String
-  Video       Video[]
+  Video     Video[]
 }
 
 model Video {
-  id         String   @id @default(uuid())
-  banner     String?
-  video      String?
-  Category   Category @relation(fields: [categoryId], references: [id])
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  Post       Post     @relation(fields: [postId], references: [id])
-  postId     String
-  categoryId String
+  id          String   @id @default(uuid())
+  title       String
+  description String
+  banner      String?
+  video       String?
+  Category    Category @relation(fields: [categoryId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  categoryId  String
+  user        User     @relation(fields: [userId], references: [id])
+  userId      String
 }
 
 model Category {

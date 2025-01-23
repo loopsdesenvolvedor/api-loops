@@ -1,8 +1,11 @@
-import express, { Request, Response, NextFunction } from "express";
+import express from "express";
 import "express-async-errors";
 import cors from "cors";
 
 import { router } from "./routes";
+import errorMiddleware from "./middlewares/errors";
+
+const port = process.env.PORT;
 
 const app = express();
 
@@ -11,19 +14,8 @@ app.use(express.json());
 
 app.use(router);
 
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  if (err instanceof Error) {
-    return res.status(400).json({
-      message: err.message,
-    });
-  }
+app.use(errorMiddleware);
 
-  return res.status(500).json({
-    status: "error",
-    message: "Internal server error",
-  });
-});
-
-app.listen(process.env.PORT, () => {
-  console.log("App is running!");
+app.listen(port, () => {
+  console.log(`App is running on port: ${port}`);
 });
